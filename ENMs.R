@@ -7,6 +7,9 @@ wd_depth <- '/Users/carloseduardoaribeiro/Documents/Collaborations/White shark/E
 wd_variables <- '/Users/carloseduardoaribeiro/Documents/Collaborations/White shark/Environmental variables/Variables'
 wd_projections <- '/Users/carloseduardoaribeiro/Documents/Collaborations/White shark/Projections'
 wd_plot_layers <- '/Users/carloseduardoaribeiro/Documents/Collaborations/White shark/Projections/Plot_layers'
+wd_plot_layers_depth <- '/Users/carloseduardoaribeiro/Documents/Collaborations/White shark/Projections/Plot_layers_depth'
+
+Plot_layers_depth
 
 #load world map (package rnaturalearth)
 world <- ne_countries(scale = 10, returnclass = "sf")
@@ -93,8 +96,8 @@ writeRaster(model, filename = 'Naive_model.tif', format = 'GTiff')
 #visualise models
 
 #make break points to plot 0s in one colour and 1s in another colour
-breakpoints <- c(0, 0.5, 1)
-colours <- c('#6baed6', '#f03b20', '#f03b20')
+br <- c(0, 0.5, 1)
+col <- c('#6baed6', '#f03b20', '#f03b20')
 
 #plot and save each layer of visualisation
 for(i in 1:nlayers(model))
@@ -268,29 +271,447 @@ mod_10_06[] <- ifelse(mod_10_06[] >= 2.5, 1, 0)
 mod_05_01 <- sum(mod_05, mod_04, mod_03, mod_02, mod_01)
 mod_05_01[] <- ifelse(mod_05_01[] >= 2.5, 1, 0)
 
-# transp_40_36
-# transp_35_31
-# transp_30_26
-# transp_25_21
-# transp_20_16
-# transp_15_11
-# transp_10_06
-# transp_05_01
+#step 3: plot ensemble for the layers and upper layers with transparency
+par(mar = c(1,1,1,1))
 
-#step 3: plot ensemble for the layer
-plot(mod_50_46, breaks = breakpoints, col = colours)
-
-plot(mod_45_41, breaks = breakpoints, col = colours)
+#set colours for the transparency layers
+br <- c(0, 0.5, 1)
+col_trans <- '#6baed61a'
+col_trans_mod <- c('#6baed61a', '#f03b20', '#f03b20')
 
 
+#mod_50_46
+setwd(wd_plot_layers_depth)
+pdf(file = paste0(round(getZ(depth[[45]]), 2), '_to_',
+                  round(getZ(depth[[50]]), 2), '_m.pdf'))
 
-breakpoints <- c(0, 0.5, 1)
-colours <- c('#6baed61a', '#f03b20', '#f03b20')
-plot(model[[1]], breaks = breakpoints, col = colours)
-plot(model[[1]])
-plot(st_geometry(occ_sf), add = T,
-     pch = 21, cex = 0.6, col = 'black', bg = 'red')
+#here comes the layer with the data
+plot(mod_50_46, breaks = br, col = col_trans_mod,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F,
+     main = paste0(round(getZ(depth[[45]]), 2), ' to ',
+                     round(getZ(depth[[50]]), 2), ' m'))
+par(new = T)
+plot(mod_45_41, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_10_06, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_05_01, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
 
+
+dev.off()
+
+#mod_45_41
+setwd(wd_plot_layers_depth)
+pdf(file = paste0(round(getZ(depth[[40]]), 2), '_to_',
+                  round(getZ(depth[[45]]), 2), '_m.pdf'))
+
+plot(mod_50_46, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F,
+     main = paste0(round(getZ(depth[[40]]), 2), ' to ',
+                   round(getZ(depth[[45]]), 2), ' m'))
+
+#here comes the layer with the data
+par(new = T)
+plot(mod_45_41, breaks = br, col = col_trans_mod,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+par(new = T)
+plot(mod_40_36, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_10_06, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_05_01, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+
+dev.off()
+
+
+#mod_40_36
+setwd(wd_plot_layers_depth)
+pdf(file = paste0(round(getZ(depth[[35]]), 2), '_to_',
+                  round(getZ(depth[[40]]), 2), '_m.pdf'))
+
+plot(mod_50_46, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F,
+     main = paste0(round(getZ(depth[[35]]), 2), ' to ',
+                   round(getZ(depth[[40]]), 2), ' m'))
+par(new = T)
+plot(mod_45_41, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+#here comes the layer with the data
+par(new = T)
+plot(mod_40_36, breaks = br, col = col_trans_mod,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+par(new = T)
+plot(mod_35_31, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_10_06, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_05_01, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+
+dev.off()
+
+
+#mod_35_31
+setwd(wd_plot_layers_depth)
+pdf(file = paste0(round(getZ(depth[[30]]), 2), '_to_',
+                  round(getZ(depth[[35]]), 2), '_m.pdf'))
+
+plot(mod_50_46, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F,
+     main = paste0(round(getZ(depth[[30]]), 2), ' to ',
+                   round(getZ(depth[[35]]), 2), ' m'))
+par(new = T)
+plot(mod_45_41, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+#here comes the layer with the data
+par(new = T)
+plot(mod_35_31, breaks = br, col = col_trans_mod,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+par(new = T)
+plot(mod_30_26, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_10_06, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_05_01, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+
+dev.off()
+
+
+#mod_30_26
+setwd(wd_plot_layers_depth)
+pdf(file = paste0(round(getZ(depth[[25]]), 2), '_to_',
+                  round(getZ(depth[[30]]), 2), '_m.pdf'))
+
+plot(mod_50_46, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F,
+     main = paste0(round(getZ(depth[[25]]), 2), ' to ',
+                   round(getZ(depth[[30]]), 2), ' m'))
+par(new = T)
+plot(mod_45_41, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31,  col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+#here comes the layer with the data
+par(new = T)
+plot(mod_30_26, breaks = br, col = col_trans_mod,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_10_06, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_05_01, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+
+dev.off()
+
+
+#mod_25_21
+setwd(wd_plot_layers_depth)
+pdf(file = paste0(round(getZ(depth[[20]]), 2), '_to_',
+                  round(getZ(depth[[25]]), 2), '_m.pdf'))
+
+plot(mod_50_46, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F,
+     main = paste0(round(getZ(depth[[20]]), 2), ' to ',
+                   round(getZ(depth[[25]]), 2), ' m'))
+par(new = T)
+plot(mod_45_41, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31,  col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+#here comes the layer with the data
+par(new = T)
+plot(mod_25_21, breaks = br, col = col_trans_mod,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+par(new = T)
+plot(mod_20_16, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_10_06, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_05_01, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+
+dev.off()
+
+
+#mod_20_16
+setwd(wd_plot_layers_depth)
+pdf(file = paste0(round(getZ(depth[[15]]), 2), '_to_',
+                  round(getZ(depth[[20]]), 2), '_m.pdf'))
+
+plot(mod_50_46, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F,
+     main = paste0(round(getZ(depth[[15]]), 2), ' to ',
+                   round(getZ(depth[[20]]), 2), ' m'))
+par(new = T)
+plot(mod_45_41, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31,  col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+#here comes the layer with the data
+par(new = T)
+plot(mod_20_16, breaks = br, col = col_trans_mod,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+par(new = T)
+plot(mod_15_11, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_10_06, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_05_01, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+
+dev.off()
+
+
+#mod_15_11
+setwd(wd_plot_layers_depth)
+pdf(file = paste0(round(getZ(depth[[11]]), 2), '_to_',
+                  round(getZ(depth[[15]]), 2), '_m.pdf'))
+
+plot(mod_50_46, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F,
+     main = paste0(round(getZ(depth[[11]]), 2), ' to ',
+                   round(getZ(depth[[15]]), 2), ' m'))
+par(new = T)
+plot(mod_45_41, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31,  col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+#here comes the layer with the data
+par(new = T)
+plot(mod_15_11, breaks = br, col = col_trans_mod,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+par(new = T)
+plot(mod_10_06, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_05_01, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+
+dev.off()
+
+
+#mod_10_06
+setwd(wd_plot_layers_depth)
+pdf(file = paste0(round(getZ(depth[[05]]), 2), '_to_',
+                  round(getZ(depth[[10]]), 2), '_m.pdf'))
+
+plot(mod_50_46, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F,
+     main = paste0(round(getZ(depth[[05]]), 2), ' to ',
+                   round(getZ(depth[[10]]), 2), ' m'))
+par(new = T)
+plot(mod_45_41, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31,  col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+#here comes the layer with the data
+par(new = T)
+plot(mod_10_06, breaks = br, col = col_trans_mod,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_05_01, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+
+dev.off()
+
+
+#mod_06_01
+setwd(wd_plot_layers_depth)
+pdf(file = paste0('0_to_',
+                  round(getZ(depth[[05]]), 2), '_m.pdf'))
+
+plot(mod_50_46, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F,
+     main = paste0('0 to ',
+                   round(getZ(depth[[10]]), 2), ' m'))
+par(new = T)
+plot(mod_45_41, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31,  col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = col_trans,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_10_06, col = col_trans, 
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+#here comes the layer with the data
+par(new = T)
+plot(mod_05_01, breaks = br, col = col_trans_mod,
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+
+dev.off()
 
 #############
 
@@ -304,3 +725,228 @@ plot(st_geometry(occ_sf), add = T,
 # transp_15_11
 # transp_10_06
 # transp_05_01
+
+
+
+pdf(file = 'Test2.pdf')
+
+plot(mod_50_46, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_45_41, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+dev.off()
+
+
+pdf(file = 'Test3.pdf')
+
+plot(mod_50_46, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_45_41, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+dev.off()
+
+pdf(file = 'Test4.pdf')
+
+plot(mod_50_46, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_45_41, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+dev.off()
+
+
+pdf(file = 'Test5.pdf')
+
+plot(mod_50_46, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_45_41, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+dev.off()
+
+
+pdf(file = 'Test6.pdf')
+
+plot(mod_50_46, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_45_41, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+dev.off()
+
+
+pdf(file = 'Test7.pdf')
+
+plot(mod_50_46, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_45_41, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+dev.off()
+
+
+pdf(file = 'Test8.pdf')
+
+plot(mod_50_46, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_45_41, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+dev.off()
+
+
+pdf(file = 'Test9.pdf')
+
+plot(mod_50_46, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_45_41, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_10_06, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+dev.off()
+
+
+pdf(file = 'Test10.pdf')
+
+plot(mod_50_46, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_45_41, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_40_36, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_35_31, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_30_26, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_25_21, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_20_16, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_15_11, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_10_06, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+par(new = T)
+plot(mod_05_01, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F)
+
+dev.off()
+
+
+
+t <-  stack(mod_50_46, mod_45_41, mod_40_36, mod_35_31)
+
+plot(mod_30_26, breaks = br, col = '#6baed61a',
+     legend = F, frame = F, box = F, maxpixels = 5000000, axes = F, add = T)
+
+stack(mod_50_46, mod_45_41, mod_40_36, mod_35_31)
+
+breakpoints <- c(0, 0.5, 1)
+colours <- c('#6baed61a', '#f03b20', '#f03b20')
+plot(model[[1]], breaks = breakpoints, col = colours)
+plot(model[[1]])
+plot(st_geometry(occ_sf), add = T,
+     pch = 21, cex = 0.6, col = 'black', bg = 'red')
+
+
