@@ -3,6 +3,7 @@ library(sf); library(rnaturalearth); library(raster)
 
 #list WDs
 wd_occ <- '/Users/carloseduardoaribeiro/Documents/Collaborations/White shark/Occurrences'
+wd_depth <- '/Users/carloseduardoaribeiro/Documents/Collaborations/White shark/Environmental variables/Depth'
 
 #load world map (package rnaturalearth)
 world <- ne_countries(scale = 10, returnclass = "sf")
@@ -15,6 +16,10 @@ occ <- read.csv('C_carcharias_clean.csv')
 #make spatial object (uses function crs from raster)
 occ_sf <- st_as_sf(occ, coords = c('decimalLongitude', 'decimalLatitude'),
                    crs = crs(world))
+
+#load depth layers
+setwd(wd_depth)
+depth_copernicus <- brick('GLO-MFC_001_024_mask_bathy.nc')
 
 #plot data
 plot(st_geometry(world), col = 'grey', bg = 'azure2', border = F,
